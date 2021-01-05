@@ -48,6 +48,7 @@ function main() {
             age,
             room: number,
             keycard: key,
+            floor: fl,
           };
           console.log(
             `Room ${number} is booked by ${name} with keycard number ${key}.`
@@ -116,6 +117,13 @@ function main() {
 
         const guestByAge = rooms.flat().filter(Boolean).filter(room => eval(`${room.age} ${operator} ${age}`)).map(room => room.name);
         console.log(guestByAge.join(', '));
+        return
+      }
+      case "list_guest_by_floor": {
+        const [floor] = command.params;
+
+        const guestByFloor = rooms.flat().filter(Boolean).filter(room => room.floor === floor).map(room => room.name);
+        console.log(guestByFloor.join(', '));
         return
       }
       default:
