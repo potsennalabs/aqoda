@@ -12,12 +12,13 @@ function main() {
   const commands = getCommandsFromFileName(filename);
   let rooms;
   let sumGuest = 0;
+  let hotel = {};
 
   commands.forEach((command) => {
     switch (command.name) {
       case "create_hotel":
         const [floor, roomPerFloor] = command.params;
-        const hotel = { floor, roomPerFloor };
+        hotel = { floor, roomPerFloor };
         rooms = Array.from({ length: floor }).map(() =>
           Array.from({ length: roomPerFloor })
         );
@@ -49,6 +50,18 @@ function main() {
           );
         }
         return;
+      case "list_available_rooms":
+        const emptyRooms = [];
+
+        for (let i = 1; i <= hotel.floor; i++) {
+          for (let j = 1; j <= hotel.roomPerFloor; j++) {
+            if (!rooms[i - 1][j - 1]) {
+              emptyRooms.push(i * 100 + j);
+            }
+          }
+        }
+
+        console.log(emptyRooms.join(", "));
       default:
         return;
     }
