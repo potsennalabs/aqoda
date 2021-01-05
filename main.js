@@ -16,7 +16,7 @@ function main() {
 
   commands.forEach((command) => {
     switch (command.name) {
-      case "create_hotel":
+      case "create_hotel": {
         const [floor, roomPerFloor] = command.params;
         hotel = { floor, roomPerFloor };
         rooms = Array.from({ length: floor }).map(() =>
@@ -27,7 +27,8 @@ function main() {
           `Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`
         );
         return;
-      case "book":
+      }
+      case "book": {
         const [number, name, age] = command.params;
         const fl = Math.floor(number / 100);
         const roomNumber = Math.floor(number % 100);
@@ -39,7 +40,7 @@ function main() {
             name,
             age,
             room: number,
-            keyCard: sumGuest,
+            keycard: sumGuest,
           };
           console.log(
             `Room ${number} is booked by ${name} with keycard number ${sumGuest}.`
@@ -50,7 +51,25 @@ function main() {
           );
         }
         return;
-      case "list_available_rooms":
+      }
+      case "checkout": {
+        const [keycard, name] = command.params;
+        for (let i = 0; i < hotel.floor; i++) {
+          for (let j = 0; j < hotel.roomPerFloor; j++) {
+            if (
+              rooms[i][j] &&
+              rooms[i][j].name === name &&
+              rooms[i][j].keycard === keycard
+            ) {
+              console.log(`Room ${rooms[i][j].room} is checkout.`);
+              rooms[i][j] = undefined;
+              return;
+            }
+          }
+        }
+        return;
+      }
+      case "list_available_rooms": {
         const emptyRooms = [];
 
         for (let i = 1; i <= hotel.floor; i++) {
@@ -62,6 +81,7 @@ function main() {
         }
 
         console.log(emptyRooms.join(", "));
+      }
       default:
         return;
     }
