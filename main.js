@@ -25,6 +25,16 @@ function main() {
           `Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`
         );
         return;
+      case "book":
+        const [number, name, age] = command.params;
+        const fl = Math.floor(number / 100);
+        const roomNumber = Math.floor(number % 100);
+        rooms[fl - 1][roomNumber - 1] = {
+          name,
+          age,
+          room: number,
+        };
+        return;
       default:
         return;
     }
