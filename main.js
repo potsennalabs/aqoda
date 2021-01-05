@@ -97,12 +97,12 @@ function main() {
         for (let i = 1; i <= hotel.floor; i++) {
           for (let j = 1; j <= hotel.roomPerFloor; j++) {
             if (rooms[i - 1][j - 1]) {
-              people.push(rooms[i - 1][j - 1].name);
+              people[rooms[i - 1][j - 1].keycard] = rooms[i - 1][j - 1].name;
             }
           }
         }
 
-        console.log(people.filter((v, i, a) => a.indexOf(v) === i).join(", "));
+        console.log(people.filter(Boolean).join(", "));
         return
       }
       case "get_guest_in_room": {
