@@ -15,6 +15,7 @@ function main() {
   let keycard = {};
 
   commands.forEach((command) => {
+    if (!command.name) return
     switch (command.name) {
       case "create_hotel": {
         const [floor, roomPerFloor] = command.params;
@@ -101,6 +102,7 @@ function main() {
         console.log(people.filter((v, i, a) => a.indexOf(v) === i).join(", "));
       }
       default:
+        console.log(`No command ${command.name}`)
         return;
     }
   });
