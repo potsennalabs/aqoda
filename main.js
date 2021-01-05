@@ -60,16 +60,17 @@ function main() {
         return;
       }
       case "checkout": {
-        const [keycard, name] = command.params;
+        const [keycardNumber, name] = command.params;
         for (let i = 0; i < hotel.floor; i++) {
           for (let j = 0; j < hotel.roomPerFloor; j++) {
             if (
               rooms[i][j] &&
               rooms[i][j].name === name &&
-              +rooms[i][j].keycard === +keycard
+              +rooms[i][j].keycard === +keycardNumber
             ) {
               console.log(`Room ${rooms[i][j].room} is checkout.`);
               rooms[i][j] = undefined;
+              keycard[keycardNumber].isAvailable = true;
               return;
             }
           }
