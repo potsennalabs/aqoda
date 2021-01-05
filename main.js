@@ -141,6 +141,38 @@ function main() {
         console.log(`Room ${checkoutRoom.join(', ')} are checkout.`);
         return
       }
+      case "book_by_floor": {
+        const [floor, name, age] = command.params;
+
+        for (let j = 1; j <= hotel.roomPerFloor; j++) {
+          if (rooms[floor - 1][j - 1]) {
+            console.log(`Cannot book floor ${floor} for ${name}.`)
+            return
+          }
+        }
+
+        const bookingRooms = []
+        const bookingKeys = []
+        for (let j = 1; j <= hotel.roomPerFloor; j++) {
+          const roomNumber = `${floor}${j.toString().padStart(2, '0')}`
+          const key = Object.keys(keycard).find(
+            (item) => keycard[item].isAvailable
+          );
+          keycard[key].isAvailable = false;
+          rooms[floor - 1][j - 1] = {
+            name,
+            age,
+            room: roomNumber,
+            keycard: key,
+            floor,
+          };
+          bookingRooms.push(roomNumber)
+          bookingKeys.push(key)
+        }
+
+        console.log(`Room ${bookingRooms.join(', ')} are booked with keycard number ${bookingKeys.join(', ')}`);
+        return
+      }
       default:
         console.log(`No command ${command.name}`)
         return;
