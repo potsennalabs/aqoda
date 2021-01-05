@@ -104,6 +104,13 @@ function main() {
         console.log(people.filter((v, i, a) => a.indexOf(v) === i).join(", "));
         return
       }
+      case "get_guest_in_room": {
+        const [roomNumber] = command.params;
+
+        const booking = rooms.flat().filter(Boolean).find(room => room.room === roomNumber);
+        console.log(booking.name);
+        return
+      }
       default:
         console.log(`No command ${command.name}`)
         return;
