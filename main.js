@@ -30,13 +30,21 @@ function main() {
         const [number, name, age] = command.params;
         const fl = Math.floor(number / 100);
         const roomNumber = Math.floor(number % 100);
-        rooms[fl - 1][roomNumber - 1] = {
-          name,
-          age,
-          room: number,
-          keyCard: sumGuest + 1,
-        };
-        sumGuest++;
+        const room = rooms[fl - 1][roomNumber - 1];
+
+        if (!room) {
+          sumGuest++;
+          rooms[fl - 1][roomNumber - 1] = {
+            name,
+            age,
+            room: number,
+            keyCard: sumGuest,
+          };
+        } else {
+          console.log(
+            `Cannot book room ${number} for ${name}, The room is currently booked by ${room.name}.`
+          );
+        }
         return;
       default:
         return;
