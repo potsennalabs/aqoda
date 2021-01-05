@@ -126,6 +126,21 @@ function main() {
         console.log(guestByFloor.join(', '));
         return
       }
+      case "checkout_guest_by_floor": {
+        const [floor] = command.params;
+
+        let checkoutRoom = [];
+        for (let j = 1; j <= hotel.roomPerFloor; j++) {
+          if (rooms[floor - 1][j - 1]) {
+            checkoutRoom.push(rooms[floor - 1][j - 1].room);
+            keycard[parseInt(rooms[floor - 1][j - 1].keycard)].isAvailable = true;
+            rooms[floor - 1][j - 1] = undefined
+          }
+        }
+
+        console.log(`Room ${checkoutRoom.join(', ')} are checkout.`);
+        return
+      }
       default:
         console.log(`No command ${command.name}`)
         return;
