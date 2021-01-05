@@ -11,8 +11,8 @@ function main() {
   const filename = "input.txt";
   const commands = getCommandsFromFileName(filename);
   let rooms;
-  let sumGuest = 0;
   let hotel = {};
+  let keycard = {};
 
   commands.forEach((command) => {
     switch (command.name) {
@@ -22,6 +22,10 @@ function main() {
         rooms = Array.from({ length: floor }).map(() =>
           Array.from({ length: roomPerFloor })
         );
+
+        for (let k = 1; k <= floor * roomPerFloor; k++) {
+          keycard = { ...keycard, [k]: { isAvailable: true } };
+        }
 
         console.log(
           `Hotel created with ${floor} floor(s), ${roomPerFloor} room(s) per floor.`
@@ -33,17 +37,19 @@ function main() {
         const fl = Math.floor(number / 100);
         const roomNumber = Math.floor(number % 100);
         const room = rooms[fl - 1][roomNumber - 1];
-
+        const key = Object.keys(keycard).find(
+          (item) => keycard[item].isAvailable
+        );
         if (!room) {
-          sumGuest++;
+          keycard[key].isAvailable = false;
           rooms[fl - 1][roomNumber - 1] = {
             name,
             age,
             room: number,
-            keycard: sumGuest,
+            keycard: key,
           };
           console.log(
-            `Room ${number} is booked by ${name} with keycard number ${sumGuest}.`
+            `Room ${number} is booked by ${name} with keycard number ${key}.`
           );
         } else {
           console.log(
@@ -59,7 +65,7 @@ function main() {
             if (
               rooms[i][j] &&
               rooms[i][j].name === name &&
-              rooms[i][j].keycard === keycard
+              +rooms[i][j].keycard === +keycard
             ) {
               console.log(`Room ${rooms[i][j].room} is checkout.`);
               rooms[i][j] = undefined;
@@ -81,6 +87,18 @@ function main() {
         }
 
         console.log(emptyRooms.join(", "));
+      }
+      case "list_guest": {
+        let people = [];
+        for (let i = 1; i <= hotel.floor; i++) {
+          for (let j = 1; j <= hotel.roomPerFloor; j++) {
+            if (rooms[i - 1][j - 1]) {
+              people.push(rooms[i - 1][j - 1].name);
+            }
+          }
+        }
+
+        console.log(people.filter((v, i, a) => a.indexOf(v) === i).join(", "));
       }
       default:
         return;
