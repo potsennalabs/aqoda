@@ -89,6 +89,7 @@ function main() {
         }
 
         console.log(emptyRooms.join(", "));
+        return
       }
       case "list_guest": {
         let people = [];
@@ -101,6 +102,7 @@ function main() {
         }
 
         console.log(people.filter((v, i, a) => a.indexOf(v) === i).join(", "));
+        return
       }
       default:
         console.log(`No command ${command.name}`)
