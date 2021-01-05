@@ -11,6 +11,7 @@ function main() {
   const filename = "input.txt";
   const commands = getCommandsFromFileName(filename);
   let rooms;
+  let sumGuest = 0;
 
   commands.forEach((command) => {
     switch (command.name) {
@@ -33,7 +34,9 @@ function main() {
           name,
           age,
           room: number,
+          keyCard: sumGuest + 1,
         };
+        sumGuest++;
         return;
       default:
         return;
