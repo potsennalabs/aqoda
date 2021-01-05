@@ -111,6 +111,13 @@ function main() {
         console.log(booking.name);
         return
       }
+      case "list_guest_by_age": {
+        const [operator, age] = command.params;
+
+        const guestByAge = rooms.flat().filter(Boolean).filter(room => eval(`${room.age} ${operator} ${age}`)).map(room => room.name);
+        console.log(guestByAge.join(', '));
+        return
+      }
       default:
         console.log(`No command ${command.name}`)
         return;
