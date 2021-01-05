@@ -40,6 +40,9 @@ function main() {
             room: number,
             keyCard: sumGuest,
           };
+          console.log(
+            `Room ${number} is booked by ${name} with keycard number ${sumGuest}.`
+          );
         } else {
           console.log(
             `Cannot book room ${number} for ${name}, The room is currently booked by ${room.name}.`
